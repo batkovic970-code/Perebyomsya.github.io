@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perebyomsya — Установка Lightroom</title>
+<title>Perebyomsya — База программ</title>
 <style>
-/* ПЕРЕМЕННЫЕ ИЗ ВАШЕГО ПЕРВОГО САЙТА */
+/* ПЕРЕМЕННЫЕ */
 :root {
   --bg: #f6f4ed; --surface: rgba(246, 244, 237, 0.85); --card: #ffffff; 
   --text: #1c1917; --muted: #78716c; --accent: #1d4ed8; --accent2: #3b82f6; 
@@ -14,8 +14,6 @@
   --hover-border: #facc15;
   --hover-glow: 0 15px 40px rgba(250, 204, 21, 0.6);
   --spotlight: rgba(250, 204, 21, 0.15);
-  
-  /* Золото для логотипа */
   --gold-a: #F4D374; --gold-b: #A9791C;
   --warn: #d97706; --warn-bg: rgba(217, 119, 6, 0.1);
 }
@@ -27,7 +25,6 @@ body.dark {
   --hover-border: #b87333;
   --hover-glow: 0 15px 40px rgba(184, 115, 51, 0.7);
   --spotlight: rgba(184, 115, 51, 0.2);
-
   --gold-a: #F7DE9A; --gold-b: #C9A227;
   --warn: #f59e0b; --warn-bg: rgba(245, 158, 11, 0.1);
 }
@@ -46,35 +43,22 @@ header{position:fixed;top:0;width:100%;z-index:100;padding:16px 0;background:var
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 .crumb{font-size:14px; color:var(--muted); font-weight:600; display:none;}
 @media(min-width: 750px) { .crumb { display:flex; align-items:center; gap:8px; } }
 .crumb .here{ color:var(--text); }
-
 .theme-btn{width:42px;height:42px;border:2px solid var(--accent);border-radius:50%;background:var(--surface);color:var(--accent);cursor:pointer;font-size:18px;transition:.3s;box-shadow:var(--glow);display:grid;place-items:center;}
 .theme-btn:hover{transform:rotate(20deg) scale(1.1); background:var(--accent); color:#fff;}
 
 /* ОБЩИЕ СТИЛИ СЕКЦИЙ */
-section{padding:100px 0 40px}
-.hero-header { padding-top: 140px; padding-bottom: 40px; text-align: center; }
+section{padding:80px 0 40px}
+.hero-header { padding-top: 140px; padding-bottom: 20px; text-align: center; }
 .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid var(--border);background:var(--card);border-radius:999px;color:var(--muted);font-size:14px;margin-bottom:24px;box-shadow:var(--shadow);}
 .badge svg { color: var(--accent); }
-h1{font-size:clamp(38px,6vw,60px);line-height:1.1;letter-spacing:-2px;margin-bottom:16px;}
-.subtitle{font-size:18px; color:var(--muted); max-width:600px; margin:0 auto 30px;}
+h1{font-size:clamp(36px,5vw,54px);line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px;}
+.subtitle{font-size:18px; color:var(--muted); max-width:650px; margin:0 auto;}
 
-/* ВНИМАНИЕ / АЛЕРТ */
-.callout {
-  background: var(--warn-bg); border: 1px solid var(--warn); border-radius: 20px;
-  padding: 24px; text-align: left; max-width: 800px; margin: 0 auto 40px;
-  display: flex; gap: 16px; align-items: flex-start;
-}
-.callout .glyph { color: var(--warn); flex-shrink: 0; }
-.callout h4 { color: var(--warn); font-size: 18px; margin-bottom: 6px; }
-.callout p { color: var(--text); font-size: 15px; margin-bottom: 12px; }
-.callout a { color: var(--warn); font-weight: 700; text-decoration: underline; }
-
-/* ВКЛАДКИ OS */
-.os-tabs { margin-top: 20px; }
+/* ОСНОВНЫЕ ВКЛАДКИ OS */
+.os-tabs { margin-top: 10px; }
 .tab-input { display: none; }
 .tabs-nav { display: flex; gap: 12px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
 .tabs-nav label {
@@ -92,7 +76,26 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.1;letter-spacing:-2px;margin-bot
 #tab-windows:checked ~ .panel-windows { display: block; }
 #tab-macos:checked ~ .panel-macos { display: block; }
 
-/* КАРТОЧКИ (ШАГИ) */
+/* ВЛОЖЕННЫЕ ВКЛАДКИ (ВЫБОР ПРОГРАММЫ) */
+.prog-input { display: none; }
+.prog-nav { display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+.prog-nav label {
+  cursor: pointer; padding: 10px 22px; border-radius: 12px; background: var(--card);
+  border: 1px solid var(--border); font-weight: 600; font-size: 15px; transition: .3s;
+  color: var(--muted); box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+.prog-nav label:hover { transform: translateY(-2px); color: var(--text); border-color: var(--hover-border); }
+/* Подсветка активной программы */
+#win-lr:checked ~ .prog-nav label[for="win-lr"],
+#mac-adobe:checked ~ .prog-nav label[for="mac-adobe"] {
+  background: var(--accent); color: #fff; border-color: transparent; box-shadow: var(--glow);
+}
+
+.prog-panel { display: none; animation: fadeUp .4s both; }
+#win-lr:checked ~ .panel-win-lr { display: block; }
+#mac-adobe:checked ~ .panel-mac-adobe { display: block; }
+
+/* КАРТОЧКИ С ИНСТРУКЦИЯМИ */
 .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
 .card {
   background: var(--card); border: 1px solid var(--border); border-radius: 24px;
@@ -120,7 +123,7 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.1;letter-spacing:-2px;margin-bot
 .btn-primary { background: var(--accent); color: #fff; border-color: transparent; box-shadow: var(--glow); display: inline-flex; align-items: center; gap: 8px; }
 .btn-primary:hover { transform: translateY(-3px); background: var(--text); color: var(--bg); box-shadow: none; }
 
-/* КОНТАКТЫ ИЗ ПОРТФОЛИО */
+/* КОНТАКТЫ */
 .contact-box{padding:45px;border-radius:28px;background:var(--card);border:1px solid var(--border);text-align:center;box-shadow:var(--shadow); max-width: 800px; margin: 0 auto;}
 .contact-box p{max-width:600px;margin:0 auto 35px; color:var(--muted)}
 .contacts{display:flex;justify-content:center;flex-wrap:wrap;gap:16px}
@@ -138,10 +141,7 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.1;letter-spacing:-2px;margin-bot
 footer{padding:30px 0;border-top:1px solid var(--border);color:var(--muted);text-align:center;font-size:14px; margin-top: 40px;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-@media(max-width:750px){
-  .contact-link{width:100%; justify-content:flex-start}
-}
+@media(max-width:750px){ .contact-link{width:100%; justify-content:flex-start} }
 </style>
 </head>
 <body>
@@ -153,7 +153,6 @@ footer{padding:30px 0;border-top:1px solid var(--border);color:var(--muted);text
     <nav class="top-nav">
       <a href="#" class="logo">
         <span class="mark">
-          <!-- Значок планеты -->
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="2" y1="12" x2="22" y2="12"></line>
@@ -162,7 +161,7 @@ footer{padding:30px 0;border-top:1px solid var(--border);color:var(--muted);text
         </span>
         <span>Perebyomsya</span>
       </a>
-      <div class="crumb"><span>База знаний</span> / <span>Lightroom</span> / <span class="here">Установка</span></div>
+      <div class="crumb"><span>База знаний</span> / <span class="here">Установка софта</span></div>
       <button class="theme-btn" id="themeButton" aria-label="Переключить тему">☾</button>
     </nav>
   </div>
@@ -173,141 +172,142 @@ footer{padding:30px 0;border-top:1px solid var(--border);color:var(--muted);text
   <div class="container">
     <div class="badge">
       <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-      <span>5 минут на установку</span>
+      <span>Всё готово к установке</span>
     </div>
-    <h1>Lightroom — установка<br>и первый запуск</h1>
-    <p class="subtitle">Инструкция для Windows и macOS. Выбери свою систему во вкладках и пройди по шагам — вся установка занимает минимум времени.</p>
-    
-    <div class="callout glow-card">
-      <span class="glyph">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-      </span>
-      <div>
-        <h4>Не получается установить?</h4>
-        <p>На Windows установку может заблокировать антивирус, а на macOS — защита Gatekeeper («неопознанный разработчик»). Если шаги из инструкции не помогли — пишите в поддержку, разберёмся.</p>
-        <a href="#contacts">Написать в поддержку →</a>
-      </div>
-    </div>
+    <h1>Спасибо, что вы<br>с Perebyomsya!</h1>
+    <p class="subtitle">Выберите вашу операционную систему и нужную программу ниже, чтобы получить ссылки на скачивание и понятные пошаговые инструкции.</p>
   </div>
 </section>
 
-<section id="important" style="padding-top: 0;">
+<section id="instructions" style="padding-top: 0;">
   <div class="container">
-    <div style="text-align: center; margin-bottom: 30px;">
-      <h2 style="font-size: 32px;">Важные шаги перед установкой</h2>
-      <p style="color: var(--muted); font-size: 18px;">Пожалуйста, выполните все шаги по порядку — это поможет установить программу без ошибок.</p>
-    </div>
     
-    <div class="os-tabs" style="margin-top: 0;">
+    <!-- ГЛАВНЫЕ ВКЛАДКИ (ВЫБОР ОС) -->
+    <div class="os-tabs">
       <input type="radio" name="os-tab" id="tab-windows" class="tab-input" checked>
       <input type="radio" name="os-tab" id="tab-macos" class="tab-input">
 
       <div class="tabs-nav">
         <label for="tab-windows">
-          <!-- Официальный логотип Windows -->
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2 3.961l9.13-.538v8.034H2V3.961zm10.158-.598L22 2.68v8.777H12.158V3.363zm0 9.256H22v8.775l-9.842-.693V12.62zm-10.158.001h9.13v8.035l-9.13-.541v-7.494z"/></svg>
           Windows
         </label>
         <label for="tab-macos">
-          <!-- Официальный логотип Apple (macOS) -->
           <svg width="18" height="18" viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.3 47.1-.8 90.5-84.4 102.7-121.3-43.1-18.4-61.9-57-61.8-89.3zM250.8 131c16.9-20.5 28.5-47.2 25.4-74.1-22.3 1-50.6 15.2-68.5 35.5-15.1 17.1-28.4 44.8-24.6 70.8 24.8 1.9 50.8-11.7 67.7-32.2z"/></svg>
           macOS
         </label>
       </div>
 
-      <!-- ВКЛАДКА WINDOWS -->
+      <!-- РАЗДЕЛ WINDOWS -->
       <div class="tab-panel panel-windows">
-        <div class="cards-grid">
-          <div class="card glow-card">
-            <div class="card-icon">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+        
+        <!-- Вложенные вкладки программ для Windows -->
+        <input type="radio" name="win-prog" id="win-lr" class="prog-input" checked>
+        
+        <div class="prog-nav">
+          <label for="win-lr">Lightroom</label>
+          <!-- Сюда в будущем можно добавлять другие кнопки -->
+        </div>
+
+        <!-- ИНСТРУКЦИЯ: Windows -> Lightroom -->
+        <div class="prog-panel panel-win-lr">
+          <div class="cards-grid">
+            <div class="card glow-card">
+              <div class="card-icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+              </div>
+              <h3>1️⃣ Удали старый Lightroom</h3>
+              <p>Если программа была установлена, зайди в <b>Параметры → Программы → Удаление программы</b>. После удаления обязательно перезагрузи компьютер.</p>
             </div>
-            <h3>1️⃣ Удали старый Lightroom</h3>
-            <p>Если программа была установлена, зайди в <b>Параметры → Программы → Удаление программы</b>. После удаления обязательно перезагрузи компьютер.</p>
-          </div>
-          <div class="card glow-card dark-icon">
-            <div class="card-icon">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            
+            <div class="card glow-card dark-icon">
+              <div class="card-icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              </div>
+              <h3>2️⃣ Отключи защиту</h3>
+              <p>Перед установкой временно отключи Windows Defender и другие антивирусы. Установщик создаёт библиотеки папок для проектов и плагинов, и антивирус может ошибочно путать их с угрозой.</p>
             </div>
-            <h3>2️⃣ Отключи защиту</h3>
-            <p>Перед установкой временно отключи Windows Defender и другие антивирусы. Установщик создаёт библиотеки папок для проектов и плагинов, и антивирус может ошибочно путать их с угрозой.</p>
-          </div>
-          <div class="card glow-card">
-            <div class="card-icon">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            
+            <div class="card glow-card">
+              <div class="card-icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              </div>
+              <h3>3️⃣ Скачай и установи</h3>
+              <p>Скачай архив, <b>обязательно распакуй его</b> перед началом установки, а затем запусти установщик.</p>
+              <a href="https://drive.google.com/drive/folders/1brCZQVa0Z-dgU6yCxWflJGh2JX5HmWa4?usp=drive_link" target="_blank" class="btn btn-primary" style="margin-top:auto; width:fit-content;">Скачать с Диска</a>
             </div>
-            <h3>3️⃣ Скачай и установи</h3>
-            <p>Скачай архив, <b>обязательно распакуй его</b> перед началом установки, а затем запусти установщик.</p>
-            <a href="https://drive.google.com/drive/folders/1brCZQVa0Z-dgU6yCxWflJGh2JX5HmWa4?usp=drive_link" target="_blank" class="btn btn-primary" style="margin-top:auto; width:fit-content;">Скачать с Диска</a>
           </div>
         </div>
+
       </div>
 
-      <!-- ВКЛАДКА MACOS -->
+      <!-- РАЗДЕЛ MACOS -->
       <div class="tab-panel panel-macos">
-        <div class="cards-grid">
-          <div class="card glow-card">
-            <div class="card-icon">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+        
+        <!-- Вложенные вкладки программ для macOS -->
+        <input type="radio" name="mac-prog" id="mac-adobe" class="prog-input" checked>
+        
+        <div class="prog-nav">
+          <label for="mac-adobe">Программы Adobe</label>
+          <!-- Сюда в будущем можно добавлять другие кнопки -->
+        </div>
+
+        <!-- ИНСТРУКЦИЯ: macOS -> Программы Adobe -->
+        <div class="prog-panel panel-mac-adobe">
+          <div class="cards-grid">
+            <div class="card glow-card">
+              <div class="card-icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+              </div>
+              <h3>1️⃣ Удали старые приложения</h3>
+              <p>Удалите старые приложения от Adobe при помощи утилиты <b>AppCleaner</b> (если софт Adobe был ранее установлен). После удаления перезагрузите компьютер.</p>
             </div>
-            <h3>1️⃣ Удали старые приложения</h3>
-            <p>Удалите старые приложения от Adobe при помощи приложения <b>AppCleaner</b> (если Adobe был ранее установлен). После удаления перезагрузите компьютер.</p>
-          </div>
-          <div class="card glow-card">
-            <div class="card-icon">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            
+            <div class="card glow-card">
+              <div class="card-icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <h3>2️⃣ Разреши сторонние программы</h3>
+              <p>В <b>Системных настройках ➔ Конфиденциальность и безопасность</b> в разделе «Безопасность» разрешите загрузку из App Store и от подтвержденных разработчиков. Если запуск установщика блокируется — нажмите кнопку <b>«Подтвердить вход» (Open Anyway)</b>.</p>
             </div>
-            <h3>2️⃣ Разреши сторонние программы</h3>
-            <p>В <b>Системных настройках ➔ Конфиденциальность и безопасность</b> в разделе «Безопасность» разрешите загрузку из App Store и от подтвержденных разработчиков. Если запуск установщика блокируется — нажмите кнопку <b>«Подтвердить вход» (Open Anyway)</b>.</p>
-          </div>
-          <div class="card glow-card">
-            <div class="card-icon">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            
+            <div class="card glow-card">
+              <div class="card-icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              </div>
+              <h3>3️⃣ Скачай и установи</h3>
+              <p>Загрузите установщик по ссылке. При необходимости перед установкой можно изменить место установки на диск D:. ✅ Готово! Ваше приложение установлено.</p>
+              <a href="https://drive.google.com/drive/folders/1fzhCpddoZE-rA89F2QvkX6gO3iPige-v?usp=drive_link" target="_blank" class="btn btn-primary" style="margin-top:auto; width:fit-content;">Скачать с Диска</a>
             </div>
-            <h3>3️⃣ Скачай и установи</h3>
-            <p>Загрузите установщик по ссылке. При необходимости перед установкой можно изменить место установки на диск D:. ✅ Готово! Ваше приложение установлено и готово к работе.</p>
-            <a href="https://drive.google.com/drive/folders/1fzhCpddoZE-rA89F2QvkX6gO3iPige-v?usp=drive_link" target="_blank" class="btn btn-primary" style="margin-top:auto; width:fit-content;">Скачать с Диска</a>
-          </div>
-          <div class="card glow-card dark-icon">
-            <div class="card-icon">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="17" y1="8" x2="23" y2="14"></line><line x1="23" y1="8" x2="17" y2="14"></line></svg>
+            
+            <div class="card glow-card dark-icon">
+              <div class="card-icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="17" y1="8" x2="23" y2="14"></line><line x1="23" y1="8" x2="17" y2="14"></line></svg>
+              </div>
+              <h3>4️⃣ Не входи в аккаунт!</h3>
+              <p><b>⚠️ Важно:</b> После активации входить в личную учетную запись Adobe внутри приложений <b>не требуется</b> — весь функционал работает автономно. Вход в аккаунт может сбросить оффлайн-лицензию.</p>
             </div>
-            <h3>Не входи в аккаунт!</h3>
-            <p><b>⚠️ Важно:</b> После активации входить в личную учетную запись Adobe внутри приложений <b>не требуется</b> — весь функционал работает автономно. Вход в аккаунт может сбросить оффлайн-лицензию.</p>
           </div>
         </div>
+
       </div>
 
     </div>
   </div>
 </section>
 
-<section id="contacts">
+<section id="contacts" style="padding-top: 40px;">
   <div class="container">
     <div class="contact-box glow-card">
-      <h2 style="font-size: 32px; margin-bottom: 12px;">Остались вопросы?</h2>
-      <p>Ответим в течение дня — просто опишите, на каком шаге застряли, и на какой вы операционной системе.</p>
+      <h2 style="font-size: 32px; margin-bottom: 12px;">Возникли сложности?</h2>
+      <p>Если у вас не получается установить программу по инструкции — напишите нам, разберёмся и поможем.</p>
       
       <div class="contacts">
         <a href="https://t.me/Batkovitz" target="_blank" class="contact-link">
           <div class="contact-icon">
-            <!-- Официальный логотип Telegram -->
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.08-.18-.09-.05-.23-.02-.33 0-.14.03-2.34 1.49-6.61 4.37-.63.43-1.2.64-1.71.63-.56-.01-1.63-.31-2.43-.57-.98-.32-1.76-.49-1.69-1.03.04-.28.43-.57 1.18-.88 4.62-2.01 7.71-3.34 9.25-3.98 4.4-1.82 5.32-2.14 5.92-2.15.13 0 .43.03.59.17.13.12.17.29.17.43-.01.1-.01.21-.02.3z"/></svg>
           </div>
           <div class="contact-info"><span class="contact-title">Telegram</span><span class="contact-value">@Batkovitz</span></div>
-        </a>
-        <a href="https://github.com/batkovic970-code" target="_blank" class="contact-link">
-          <div class="contact-icon">
-            <!-- Официальный логотип GitHub -->
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-          </div>
-          <div class="contact-info"><span class="contact-title">GitHub</span><span class="contact-value">batkovic970-code</span></div>
-        </a>
-        <a href="mailto:batkovic970@gmail.com" class="contact-link">
-          <div class="contact-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-          </div>
-          <div class="contact-info"><span class="contact-title">Почта</span><span class="contact-value">batkovic970@gmail...</span></div>
         </a>
       </div>
     </div>
@@ -331,7 +331,7 @@ window.addEventListener('scroll', () => {
 });
 
 // ЭФФЕКТ СВЕЧЕНИЯ ДЛЯ КАРТОЧЕК
-document.querySelectorAll('.glow-card, details').forEach(card => {
+document.querySelectorAll('.glow-card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();
     card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
